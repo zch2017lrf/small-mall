@@ -1,0 +1,32 @@
+#server:
+#  port: 10000
+#  servlet:
+#    session:
+#      timeout: 30m
+#
+#spring:
+#  application:
+#    name: gulimall-product
+#  datasource:
+#    username: root
+#    password: root123
+#    url: jdbc:mysql://192.168.2.181:8306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  cloud:
+#     nacos:
+#       discovery:
+#         server-addr: localhost:8848
+##  redis:
+##    host: 192.168.2.181
+##    port: 6379
+#
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/**/*.xml
+#
+#  #设置实体类的自增主键
+#  global-config:
+#    db-config:
+#      id-type: auto
+#      #逻辑删除
+#      logic-delete-value: 1
+#      logic-not-delete-value: 0
