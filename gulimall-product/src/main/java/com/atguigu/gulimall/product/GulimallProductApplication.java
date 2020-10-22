@@ -1,5 +1,6 @@
 package com.atguigu.gulimall.product;
 
+import com.atguigu.common.annotation.EnableKaleldoServerProtect;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -55,6 +56,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @EnableCaching      //开启缓存功能
 @MapperScan("com.atguigu.gulimall.product.dao")
+@EnableKaleldoServerProtect
 @SpringBootApplication //(exclude = GlobalTransactionAutoConfiguration.class)
 public class GulimallProductApplication {
 
