@@ -81,6 +81,7 @@
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$cookie.set('token', data.token)
+                this.$cookie.set('Authorization', data.Authorization)
                 this.$router.replace({ name: 'home' })
               } else {
                 this.getCaptcha()

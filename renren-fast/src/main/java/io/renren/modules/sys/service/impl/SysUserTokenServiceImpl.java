@@ -8,9 +8,12 @@
 
 package io.renren.modules.sys.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.renren.common.utils.HttpRequest;
 import io.renren.common.utils.R;
 import io.renren.modules.sys.dao.SysUserTokenDao;
+import io.renren.modules.sys.entity.Oauth2Vo;
 import io.renren.modules.sys.entity.SysUserTokenEntity;
 import io.renren.modules.sys.oauth2.TokenGenerator;
 import io.renren.modules.sys.service.SysUserTokenService;
@@ -55,7 +58,16 @@ public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenDao, SysUse
 			this.updateById(tokenEntity);
 		}
 
-		R r = R.ok().put("token", token).put("expire", EXPIRE);
+		HttpRequest request = new HttpRequest();
+		String resultVal = request
+				.addHeader("User-Agent", "Mozilla/5.0")
+				.addHeader("Authorization", "Basic a2FsZWxkbzoxMjM0NTY=")
+				.addParam("username", "admin")
+				.addParam("password", "admin")
+				.addParam("grant_type", "password")
+				.post("http://localhost:88/api/oauth/oauth/token");
+		Oauth2Vo oauth2Vo = JSONObject.parseObject(resultVal,Oauth2Vo.class);
+		R r = R.ok().put("token", token).put("expire", EXPIRE).put("Authorization",oauth2Vo.getAccess_token());
 
 		return r;
 	}
