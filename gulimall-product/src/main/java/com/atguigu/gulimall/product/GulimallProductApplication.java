@@ -1,11 +1,18 @@
 package com.atguigu.gulimall.product;
 
+import com.atguigu.common.annotation.EnableKaleldoAuthExceptionHandler;
 import com.atguigu.common.annotation.EnableKaleldoServerProtect;
+import com.atguigu.common.annotation.KaleldoCloudApplication;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 1、整合MyBatis-Plus
@@ -56,12 +63,18 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @EnableCaching      //开启缓存功能
 @MapperScan("com.atguigu.gulimall.product.dao")
-@EnableKaleldoServerProtect
+@EnableKaleldoServerProtect //防止绕过网关服务
 @SpringBootApplication //(exclude = GlobalTransactionAutoConfiguration.class)
+@EnableKaleldoAuthExceptionHandler //oauth2服务安全
+@EnableGlobalMethodSecurity(prePostEnabled = true) //oauth2服务安全
+@KaleldoCloudApplication //oauth2服务安全
 public class GulimallProductApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GulimallProductApplication.class, args);
     }
-
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }

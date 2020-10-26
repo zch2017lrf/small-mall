@@ -22,7 +22,6 @@
 #
 #mybatis-plus:
 #  mapper-locations: classpath:/mapper/**/*.xml
-#
 #  #设置实体类的自增主键
 #  global-config:
 #    db-config:
@@ -30,3 +29,10 @@
 #      #逻辑删除
 #      logic-delete-value: 1
 #      logic-not-delete-value: 0
+#
+#
+#security:
+# oauth2:
+#   resource:
+#     id: gulimall-product
+#     user-info-uri: http://localhost:88/api/auth/user

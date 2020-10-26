@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: gulimall-auth
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+        namespace: 8143b4d4-f0f7-453b-b5f9-43e506c984da

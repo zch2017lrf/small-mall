@@ -59,12 +59,15 @@ public class KaleldoGatewaySentinelConfigure {
 
     private void initGatewayRules() {
         Set<ApiDefinition> definitions = new HashSet<>();
+        /**
+         * ApiDefinition定义了一个API分组，名称为captcha，匹配的URL为/auth/captcha
+         */
         Set<ApiPredicateItem> predicateItems = new HashSet<>();
-
         predicateItems.add(new ApiPathPredicateItem().setPattern("/auth/captcha"));
         predicateItems.add(new ApiPathPredicateItem().setPattern("/api/product/brand/list"));//配置拦截的路由
         ApiDefinition definition = new ApiDefinition("captcha") //配置规则组
                 .setPredicateItems(predicateItems);
+
         definitions.add(definition);
         GatewayApiDefinitionManager.loadApiDefinitions(definitions);
 
@@ -79,8 +82,8 @@ public class KaleldoGatewaySentinelConfigure {
                                 .setMatchStrategy(SentinelGatewayConstants.PARAM_MATCH_STRATEGY_EXACT)
                                 .setParseStrategy(SentinelGatewayConstants.PARAM_PARSE_STRATEGY_CLIENT_IP)
                 )
-                .setCount(10)
-                .setIntervalSec(60)
+                .setCount(10) //60秒频繁刷新10次
+                .setIntervalSec(60) //60秒内同一个IP，同一个key最多访问10次。
         );
         GatewayRuleManager.loadRules(rules);
     }
