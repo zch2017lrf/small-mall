@@ -5,6 +5,14 @@ import qs from 'qs'
 import merge from 'lodash/merge'
 import { clearLoginInfo } from '@/utils'
 
+import { Message } from 'element-ui'
+
+// 请求超时时间，10s
+const requestTimeOut = 10 * 1000
+const success = 200
+// 提示信息显示时长
+const messageDuration = 5 * 1000
+
 const http = axios.create({
   timeout: 1000 * 30,
   withCredentials: true,
@@ -34,6 +42,51 @@ http.interceptors.response.use(response => {
   }
   return response
 }, error => {
+  if (error.response) {
+    console.log("--------------------------------------");
+    console.log(error.response)
+    const errorMessage = error.response.data === null ? '系统内部异常，请联系网站管理员' : error.response.data.message
+    switch (error.response.status) {
+      case 404:
+        Message({
+          message: '很抱歉，资源未找到',
+          type: 'error',
+          duration: messageDuration
+        })
+        break
+      case 403:
+        Message({
+          message: '很抱歉，您暂无该操作权限',
+          type: 'error',
+          duration: messageDuration
+        })
+        break
+      case 401:
+        Message({
+          message: '很抱歉，平台认证已失效，请重新登录',
+          type: 'error',
+          duration: messageDuration
+        })
+        break
+      default:
+        if (errorMessage === 'refresh token无效') {
+          MessageBox.alert('登录已过期，请重新登录', '温馨提示', {
+            confirmButtonText: '确定',
+            showClose: false,
+            callback: action => {
+              router.push('/login')
+            }
+          })
+        } else {
+          Message({
+            message: errorMessage,
+            type: 'error',
+            duration: messageDuration
+          })
+        }
+        break
+    }
+  }
   return Promise.reject(error)
 })
 

@@ -9,4 +9,5 @@ public class Oauth2Vo {
     private String refresh_token;
     private Integer expires_in;
     private String scope;
+    private Integer code;
 }

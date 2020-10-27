@@ -11,7 +11,17 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
-
+  redis:
+      database: 0
+      host: 192.168.2.181
+      port: 6379
+      lettuce:
+        pool:
+          min-idle: 8
+          max-idle: 500
+          max-active: 2000
+          max-wait: 10000
+      timeout: 5000
 #    sentinel:
 #      transport:
 #        #配置sentinel dashboard地址
@@ -42,6 +52,11 @@ mybatis-plus:
     db-config:
       id-type: auto
 
+security:
+ oauth2:
+   resource:
+     id: gulimall-member
+     user-info-uri: http://localhost:88/api/oauth/user
 
 #暴露所有端点
 #management:
