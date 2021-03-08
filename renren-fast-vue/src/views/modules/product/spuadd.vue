@@ -562,10 +562,21 @@ export default {
       });
 
       let descartes = this.descartes(selectValues);
-      //[["黑色","6GB","移动"],["黑色","6GB","联通"],["黑色","8GB","移动"],["黑色","8GB","联通"],
-      //["白色","6GB","移动"],["白色","6GB","联通"],["白色","8GB","移动"],["白色","8GB","联通"],
-      //["蓝色","6GB","移动"],["蓝色","6GB","联通"],["蓝色","8GB","移动"],["蓝色","8GB","联通"]]
+    //  let descartes = [["黑色","6GB","移动"],["黑色","6GB","联通"],["黑色","8GB","移动"],["黑色","8GB","联通"],
+    //   ["白色","6GB","移动"],["白色","6GB","联通"],["白色","8GB","移动"],["白色","8GB","联通"],
+    //   ["蓝色","6GB","移动"],["蓝色","6GB","联通"],["蓝色","8GB","移动"],["蓝色","8GB","联通"]];
       console.log("生成的组合", JSON.stringify(descartes));
+
+    var str="";
+        for (var item in descartes){
+            
+            for (var item1 in this.dataResp.tempSaleAttrs[item]){
+              str +=item1+":"+ this.dataResp.tempSaleAttrs[item][item1]+"\n";
+            }
+        }
+            console.log("规格所有:"+str);
+
+
       //有多少descartes就有多少sku
       let skus = [];
 
@@ -661,6 +672,9 @@ export default {
             this.inputValue.push({ val: "" });
           });
           this.dataResp.steped[1] = true;
+    
+
+
         });
       }
     },
@@ -700,7 +714,7 @@ export default {
       })
         .then(() => {
           this.$http({
-            url: this.$http.adornUrl("/product/spuinfo/save"),
+            url: this.$http.adornUrl("/product/spuinfodesc/save"),
             method: "post",
             data: this.$http.adornData(this.spu, false)
           }).then(({ data }) => {
@@ -783,6 +797,8 @@ export default {
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
+     this.PubSub.publish("catPath", this.spu.catalogId);
+     console.log("搜索品牌:"+this.spu.catalogId);
     this.catPathSub = PubSub.subscribe("catPath", (msg, val) => {
       this.spu.catalogId = val[val.length - 1];
     });

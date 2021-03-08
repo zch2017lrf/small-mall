@@ -8,8 +8,7 @@ import com.atguigu.gulimall.product.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -53,8 +52,13 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     @Override
     public List<BrandEntity> getBrandsByCatId(Long catId) {
+        List<CategoryBrandRelationEntity> catelogId = new ArrayList<>();
+        if (catId.intValue() != 0) {
+            catelogId = relationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        }else{
+            catelogId = relationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>());
+        }
 
-        List<CategoryBrandRelationEntity> catelogId = relationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
 
         List<BrandEntity> collect = catelogId.stream().map(item -> {
             Long brandId = item.getBrandId();
@@ -62,7 +66,7 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
             BrandEntity byId = brandService.getById(brandId);
             return byId;
         }).collect(Collectors.toList());
-
+        collect = collect.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(BrandEntity::getBrandId))), ArrayList::new));
         return collect;
     }
 

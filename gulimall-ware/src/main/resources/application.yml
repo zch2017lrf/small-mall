@@ -2,6 +2,17 @@ server:
   port: 11000
 
 spring:
+  redis:
+      database: 0
+      host: 192.168.2.181
+      port: 6379
+      lettuce:
+        pool:
+          min-idle: 8
+          max-idle: 500
+          max-active: 2000
+          max-wait: 10000
+      timeout: 5000
   datasource:
     username: root
     password: root123
@@ -27,7 +38,7 @@ spring:
 #    enabled: true
 #
   application:
-    name: gulimall-member
+    name: gulimall-ware
 #
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss

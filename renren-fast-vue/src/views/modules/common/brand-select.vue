@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-select placeholder="请选择" v-model="brandId" filterable clearable>
+    <el-select placeholder="请选择" v-model="brandId1" filterable clearable>
       <el-option
         v-for="item in brands"
         :key="item.brandId"
@@ -25,11 +25,11 @@ export default {
       catId: 0,
       brands: [
         {
-          label: "a",
-          value: 1
+          brandId: 1,
+          brandName: ""
         }
       ],
-      brandId: "",
+      brandId1: "",
       subscribe: null
     };
   },
@@ -37,7 +37,7 @@ export default {
   computed: {},
   //监控data中的数据变化
   watch: {
-    brandId(val) {
+    brandId1(val) {
       this.PubSub.publish("brandId", val);
     }
   },
@@ -52,7 +52,14 @@ export default {
         })
       }).then(({ data }) => {
         this.brands = data.data;
-        console.log(this.brands)
+        //   var str="";
+        // for (var item in this.brands){
+            
+        //     for (var item1 in this.brands[item]){
+        //       str +=item1+":"+ this.brands[item][item1]+"\n";
+        //     }
+        // }
+        //     console.log(str);
       });
     }
   },
@@ -62,7 +69,8 @@ export default {
   mounted() {
     //监听三级分类消息的变化
     this.subscribe = PubSub.subscribe("catPath", (msg, val) => {
-      this.catId = val[val.length - 1];
+      console.log("搜索品牌中......."+val);
+      // this.catId = val;
       this.getCatBrands();
     });
   },

@@ -68,10 +68,10 @@ public class KaleldoAuthorizationServerConfigure extends AuthorizationServerConf
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.tokenStore(tokenStore())
-                .userDetailsService(userDetailService)
-                .authenticationManager(authenticationManager)
-                .tokenServices(defaultTokenServices())
-                .exceptionTranslator(exceptionTranslator);
+                .userDetailsService(userDetailService)//获取用户
+                .authenticationManager(authenticationManager)//校验管理
+                .tokenServices(defaultTokenServices())//token保存方式为redis
+                .exceptionTranslator(exceptionTranslator);//异常翻译
     }
 
     @Bean

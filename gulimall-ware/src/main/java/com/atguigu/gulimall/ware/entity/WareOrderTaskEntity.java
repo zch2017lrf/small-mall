@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import lombok.Data;
+import org.eclipse.jetty.util.StringUtil;
 
 /**
  * 库存工作单
@@ -77,4 +79,19 @@ public class WareOrderTaskEntity implements Serializable {
 	 */
 	private String taskComment;
 
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+
+		try {
+			SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("YYYY-MM-dd");//注意月份是MM
+			Date date = simpleDateFormat1.parse(createTime);
+			this.createTime =date;
+
+		} catch (Exception e) {
+			// do nothing
+		}
+	}
 }
